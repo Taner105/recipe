@@ -1,9 +1,15 @@
 import React from 'react'
+import Form from './Form';
 
 const Header = () => {
     return (
         <div>
-           <h1>Header</h1> 
+           <HeaderContainer>
+               <MainHeader>
+                   Food App
+               </MainHeader>
+               <Form/>
+           </HeaderContainer>
         </div>
     )
 }
