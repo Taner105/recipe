@@ -1,7 +1,10 @@
 import axios from 'axios'
 import React from 'react'
-import {useState} from "react"
+import {useState,useEffect} from "react"
 import Header from '../../components/header/Header'
+import { MainContainer,HomeImg, ImgDiv } from './HomeStyle'
+import homeSvg from "../../assets/home.svg"
+import RecipeCardComp from './RecipeCardComp'
 
 
 const mealTypes=["Breakfast","Lunch","Dinner","Snack","Teatime"]
@@ -16,7 +19,15 @@ const Home = () => {
     const getData = async() => {
         if(query !== ""){
             const result = await axios.get(url)
-            console.log(result);
+            // console.log(result.data.hits);
+            if(result.data.more){
+                console.log("no food a this name");
+            }
+            setRecipes(result.data.hits)
+            setQuery("")
+        }
+        else{
+            console.log("please fill the form");
         }
     }
 
@@ -24,9 +35,26 @@ const Home = () => {
         getData()
     })
     return (
-        
-       <Header/>
+    <div> 
+       <Header setQuery={setQuery}
+       query={query}
+       getData={getData}
+       mealTypes={mealTypes}
+       setMeal={setMeal}
+       meal={meal}/>
+       {recipes?(
+           <MainContainer>
+               {recipes.map((recipe,index) => (
+                   <RecipeCardComp key={index} recipe={recipe.recipe}/>
+               ))}
+           </MainContainer>) : 
+           <ImgDiv>
+            <HomeImg  src={homeSvg}/>
+           </ImgDiv>}
+    </div>
+       
     )
+    
 }
 
 export default Home

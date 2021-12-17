@@ -1,12 +1,28 @@
 import React from 'react'
-import { FormContainer } from './HeaderStye'
+import { Button, FoodInput, FormContainer, Select } from './HeaderStye'
 
-const Form = () => {
+const Form = ({setQuery, query, getData,mealTypes,setMeal,meal}) => {
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        getData()
+    }
     return (
-        <FormContainer>
-            <FoodInput type="text" placeholder="Search"/>
-            <Button>Search</Button>
-            <Select></Select>
+        <FormContainer onSubmit={handleSubmit}>
+            <FoodInput type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)}/>
+            <Button onClick={getData}>Search</Button>
+            <Select
+            name='mealTypes'
+            id='mealTypes'
+            onChange={(e) => setMeal(e.target.value)}
+            >
+                {mealTypes?.map((item,index) => (
+                    <option key={index} value={item.toLowerCase()}>
+                    {item}
+                    
+                    </option>
+                ))}
+            </Select>
         </FormContainer>
     )
 }
